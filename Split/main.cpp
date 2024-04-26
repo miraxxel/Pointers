@@ -3,11 +3,11 @@ using namespace std;
 
 void main() 
 {
-	setlocale(LC_ALL, "");
+	//setlocale(LC_ALL, "");
 	srand(time(nullptr));
 
 	int size, evenCount = 0, oddCount = 0;
-	cout << "Введите размер массива: "; cin >> size;
+	cout << "Enter the size of the array: "; cin >> size;
 
 	int* arr = new int[size]; 
 	int* even = new int[size];
@@ -18,7 +18,7 @@ void main()
 		*(arr + i) = rand() % 100;
 	}
 
-	cout << "Исходный массив: ";
+	cout << "Source array: ";
 	for (int i = 0; i < size; i++)
 	{
 		cout << arr[i] << " ";
@@ -37,14 +37,14 @@ void main()
 		}
 	}
 
-	cout << "Массив even (с чётными числами): ";
+	cout << "Even numbers: ";
 	for (int i = 0; i < evenCount; i++)
 	{
 		cout << even[i] << " ";
 	}
 	cout << endl;
 
-	cout << "Массив odd (с нечётными числами): ";
+	cout << "Odd numbers: ";
 	for (int i = 0; i < oddCount; i++)
 	{
 		cout << odd[i] << " ";
