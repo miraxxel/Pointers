@@ -6,11 +6,15 @@ using namespace std;
 #define DYNAMIC_MEMORY_2
 
 void FillRand(int arr[], const int n);
+void FillRand(int** arr, const int rows, const int cols);
 void Print(int arr[], const int n);
+void Print(int** arr, const int rows, const int cols);
+
 int* push_back(int arr[], int& n, int value);
 int* push_front(int arr[], int& n, int value);
 int* pop_back(int arr[], int& n);
 int* pop_front(int arr[], int& n);
+
 void insert(int arr[], const int n, int index, int value);
 int* erase(int arr[], int& n, int index);
 
@@ -96,8 +100,31 @@ void main()
 
 #ifdef DYNAMIC_MEMORY_2
 
-#endif // DYNAMIC_MEMORY_2
+	int rows, cols;
+	cout << "Введите количество строк: "; cin >> rows;
+	cout << "Введите количество элементов строки (столбцов): "; cin >> cols;
 
+	// 1. Создаем массив указателей
+	int** arr = new int*[rows];
+	// 2. Выделяем память под строки
+	for (int i = 0; i < rows; i++)
+	{
+		arr[i] = new int[cols] {}; // Заполнение массива нулями (значениями по умолчанию)
+	}
+
+	FillRand(arr, rows, cols);
+	Print(arr, rows, cols);
+
+	// Удаление
+	// 1. Сначала удаляем строки
+	for (int i = 0; i < rows; i++)
+	{
+		delete[] arr[i];
+	}
+	// 2. После удаления строк, удаляем массив указателей:
+	delete[] arr;
+	
+#endif // DYNAMIC_MEMORY_2
 }
 
 void FillRand(int arr[], const int n)
@@ -107,6 +134,17 @@ void FillRand(int arr[], const int n)
 		*(arr + i) = rand() % 100;
 	}
 }
+void FillRand(int** arr, const int rows, const int cols)
+{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			arr[i][j] = rand() % 100;
+		}
+	}
+}
+
 void Print(int arr[], const int n)
 {
 	for (int i = 0; i < n; i++)
@@ -115,6 +153,19 @@ void Print(int arr[], const int n)
 	}
 	cout << endl;
 }
+void Print(int** arr, const int rows, const int cols)
+{
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			cout << arr[i][j] << tab;
+		}
+		cout << endl;
+	}
+	cout << endl;
+}
+
 int* push_back(int arr[], int& n, int value)
 {
 	// 1. Create buffer array
@@ -181,3 +232,4 @@ int* erase(int arr[], int& n, int index)
 	delete[] arr;
 	return buffer;
 }
+
