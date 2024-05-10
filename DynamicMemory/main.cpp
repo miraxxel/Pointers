@@ -20,6 +20,7 @@ void pop_row_back(int**& arr, int& rows, int cols);
 void pop_col_back(int**& arr, int rows, int& cols);
 int* pop_front(int arr[], int& n);
 void pop_row_front(int**& arr, int& rows, int cols);
+void pop_col_front(int**& arr, int rows, int& cols);
 void push_col_front(int**& arr, int rows, int& cols);
 
 void insert(int arr[], const int n, int index, int value);
@@ -126,7 +127,7 @@ void main()
 	FillRand(arr, rows, cols);
 	Print(arr, rows, cols);
 
-	cout << "Добавление строки в начало массива: " << endl;
+	/*cout << "Добавление строки в начало массива: " << endl;
 	push_row_front(arr, rows, cols);
 	Print(arr, rows, cols);
 
@@ -153,7 +154,7 @@ void main()
 		if (indexRow > rows) cout << "Индекс не может быть больше, чем всего строк в массиве!" << endl;
 	} while (indexRow > rows);
 	erase_row(arr, rows, cols, indexRow);
-	Print(arr, rows, cols);
+	Print(arr, rows, cols);*/
 
 	cout << "Массив с добавленным столбцом в конец: " << endl;
 	push_col_back(arr, rows, cols);
@@ -174,6 +175,10 @@ void main()
 
 	cout << "Массив без последнего столбца:" << endl;
 	pop_col_back(arr, rows, cols);
+	Print(arr, rows, cols);
+
+	cout << "Массив без первого столбца:" << endl;
+	pop_col_front(arr, rows, cols);
 	Print(arr, rows, cols);
 
 	Clear(arr, rows, cols);
@@ -417,6 +422,24 @@ void pop_row_front(int**& arr, int& rows, int cols) // Удаляет нулев
 	// обновляем ссылки на массив и количество строк
 	arr = buffer;
 	rows--;
+}
+void pop_col_front(int**& arr, int rows, int& cols)	// Удаляет нулевой столбец из массива
+{
+	// создаем новый массив с количеством стобцов уменьшенным на 1 
+	int** buffer = new int* [cols - 1];
+	Allocate(buffer, rows, cols - 1);
+
+	// копируем значения в новый массив из исходного 
+	for (int i = 0; i < rows; ++i)
+	{
+		for (int j = 1; j < cols; ++j)
+		{
+			buffer[i][j - 1] = arr[i][j];
+		}
+	}
+	// обновляем ссылки на массив и количество столбцов
+	arr = buffer;
+	cols--;
 }
 
 void insert(int arr[], const int n, int index, int value)
