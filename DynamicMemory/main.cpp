@@ -29,6 +29,7 @@ void insert_col(int**& arr, int rows, int& cols, int indexCol);
 
 int* erase(int arr[], int& n, int index);
 void erase_row(int**& arr, int& rows, int cols, int indexRowDel);
+void erase_col(int**& arr, int rows, int& cols, int indexColDel);
 
 void Allocate(int** arr, const int rows, const int cols);
 void Clear(int** arr, const int rows, const int cols);
@@ -127,7 +128,7 @@ void main()
 	FillRand(arr, rows, cols);
 	Print(arr, rows, cols);
 
-	/*cout << "Добавление строки в начало массива: " << endl;
+	cout << "Добавление строки в начало массива: " << endl;
 	push_row_front(arr, rows, cols);
 	Print(arr, rows, cols);
 
@@ -154,7 +155,7 @@ void main()
 		if (indexRow > rows) cout << "Индекс не может быть больше, чем всего строк в массиве!" << endl;
 	} while (indexRow > rows);
 	erase_row(arr, rows, cols, indexRow);
-	Print(arr, rows, cols);*/
+	Print(arr, rows, cols);
 
 	cout << "Массив с добавленным столбцом в конец: " << endl;
 	push_col_back(arr, rows, cols);
@@ -179,6 +180,14 @@ void main()
 
 	cout << "Массив без первого столбца:" << endl;
 	pop_col_front(arr, rows, cols);
+	Print(arr, rows, cols);
+
+	do
+	{
+		cout << "Введите индекс столбца, которую хотите удалить: "; cin >> indexCol;
+		if (indexCol > cols) cout << "Индекс не может быть больше, чем всего столбцов в массиве!" << endl;
+	} while (indexCol > cols);
+	erase_col(arr, rows, cols, indexCol);
 	Print(arr, rows, cols);
 
 	Clear(arr, rows, cols);
@@ -539,6 +548,28 @@ void erase_row(int**& arr, int& rows, int cols, int indexRowDel) // Удалае
 	// обновляем ссылки на массив и количество строк
 	arr = buffer;
 	rows--;
+}
+void erase_col(int**& arr, int rows, int& cols, int indexColDel)		// Удаляет столбец из массива по указанному индексу
+{
+	// создаем новый массив с количеством столбцов уменьшенным на 1 
+	int** buffer = new int* [cols - 1];
+	Allocate(buffer, rows, cols - 1);
+
+	// копируем значения в новый массив из исходного 
+	int newIndex = 0; // счётчик чтобы учесть сдвиг строк после удаления нужной
+	for (int j = 0; j < cols; ++j)
+	{
+		if (j != indexColDel)
+		{
+			for (int i = 0; i < rows; ++i)
+				buffer[i][newIndex] = arr[i][j];
+			++newIndex;
+		}
+	}
+
+	// обновляем ссылки на массив и количество строк
+	arr = buffer;
+	cols--;
 }
 
 void Allocate(int** arr, const int rows, const int cols) // Выделение памяти под двумерный динамический массив
