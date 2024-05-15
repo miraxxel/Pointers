@@ -13,6 +13,7 @@ template<typename T>void Clear(T** arr, const int rows);
 
 void FillRand(int arr[], const int n, int minRand = 0, int maxRand = 100);
 void FillRand(double arr[], const int n, int minRand = 0, int maxRand = 100);
+void FillRand(char arr[], const int n);
 void FillRand(int** arr, const int rows, const int cols);
 void FillRand(double** arr, const int rows, const int cols, int minRand = 0, int maxRand = 100);
 
@@ -40,7 +41,6 @@ template<typename T>void insert_col(T** arr, const int rows, int& cols, int inde
 template<typename T>T* erase(T arr[], int& n, int index);
 template<typename T>T** erase_row(T** arr, int& rows, const int cols, int indexRowDel);
 template<typename T>void erase_col(T** arr, const int rows, int& cols, int indexColDel);
-
 
 void main()
 {
@@ -76,14 +76,13 @@ void main()
 	int n;
 	cout << "Введите размер массива: "; cin >> n;
 
-	//int* arr = new int[n];
-	double* arr = new double[n];
+	typedef char DataType;
+	DataType* arr = new DataType[n];
 
 	FillRand(arr, n);
 	Print(arr, n);
 
-	//int value;
-	double value;
+	DataType value;
 	cout << "Введите добавляемое значение: "; cin >> value;
 	arr = push_back(arr, n, value);
 	Print(arr, n);
@@ -259,6 +258,13 @@ void FillRand(double arr[], const int n, int minRand, int maxRand)
 	{
 		*(arr + i) = rand() % (maxRand - minRand) + minRand;
 		*(arr + i) /= 100;
+	}
+}
+void FillRand(char arr[], const int n)
+{
+	for (int i = 0; i < n; i++)
+	{
+		*(arr + i) = rand();
 	}
 }
 void FillRand(int** arr, const int rows, const int cols)
