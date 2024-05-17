@@ -5,8 +5,8 @@ using::std::cout;
 using::std::endl;
 
 #define tab "\t"
-#define DYNAMIC_MEMORY_1
-//#define DYNAMIC_MEMORY_2
+//#define DYNAMIC_MEMORY_1
+#define DYNAMIC_MEMORY_2
 
 template<typename T>T** Allocate(const int rows, const int cols);
 template<typename T>void Clear(T** arr, const int rows);
@@ -125,6 +125,8 @@ void main()
 
 #ifdef DYNAMIC_MEMORY_2
 
+	typedef int DataType;
+
 	int rows, cols;
 	cout << "Введите количество строк: "; cin >> rows;
 	cout << "Введите количество элементов строки (столбцов): "; cin >> cols;
@@ -132,7 +134,7 @@ void main()
 	// тип <int> при вызове функции для явного указания компилятору 
 	// (чтобы он не столкнулся с проблемой вывода типа (type deduction)), 
 	// какой тип данных использовать при создании массива
-	int** arr = Allocate<int>(rows, cols);
+	DataType** arr = Allocate<DataType>(rows, cols);
 
 	//double** arr = Allocate<double>(rows, cols);
 
@@ -217,20 +219,14 @@ template<typename T>T** Allocate(const int rows, const int cols) // Выделе
 	// 1. Создаем (объявляем) массив указателей
 	T** arr = new T* [rows];
 	// 2. Выделяем память под строки
-	for (int i = 0; i < rows; i++)
-	{
-		arr[i] = new T[cols] {};
-	}
+	for (int i = 0; i < rows; i++) arr[i] = new T[cols] {};
 	return arr; // Возвращает адрес выделенной памяти, а на месте вызова она используется
 }
 template<typename T>void Clear(T** arr, const int rows)
 {
 	// Удаление
 	// 1. Сначала удаляем строки
-	for (int i = 0; i < rows; i++)
-	{
-		delete[] arr[i];
-	}
+	for (int i = 0; i < rows; i++) delete[] arr[i];
 	// 2. После удаления строк, удаляем массив указателей:
 	delete[] arr;
 }
@@ -238,9 +234,7 @@ template<typename T>void Clear(T** arr, const int rows)
 void FillRand(int arr[], const int n, int minRand, int maxRand)
 {
 	for (int i = 0; i < n; i++)
-	{
 		*(arr + i) = rand() % (maxRand - minRand) + minRand;
-	}
 }
 void FillRand(double arr[], const int n, int minRand, int maxRand)
 {
@@ -302,20 +296,14 @@ void FillRand(double** arr, const int rows, const int cols, int minRand, int max
 
 template<typename T>void Print(T arr[], const int n)
 {
-	for (int i = 0; i < n; i++)
-	{
-		cout << arr[i] << tab;
-	}
+	for (int i = 0; i < n; i++) cout << arr[i] << tab;
 	cout << endl;
 }
 template<typename T>void Print(T** arr, const int rows, const int cols)
 {
 	for (int i = 0; i < rows; i++)
 	{
-		for (int j = 0; j < cols; j++)
-		{
-			cout << arr[i][j] << tab;
-		}
+		for (int j = 0; j < cols; j++) cout << arr[i][j] << tab;
 		cout << endl;
 	}
 	cout << endl;
